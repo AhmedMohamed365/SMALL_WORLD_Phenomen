@@ -10,6 +10,9 @@ namespace Small_world_phenomen
     {
         static void Main(string[] args)
         {
+            const string defualtPath = "Test//Sample//movies1.txt";
+            TestUnit.readMovies(defualtPath);
+
         }
     }
 }
