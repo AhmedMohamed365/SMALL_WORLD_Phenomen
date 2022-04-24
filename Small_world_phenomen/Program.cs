@@ -10,8 +10,13 @@ namespace Small_world_phenomen
     {
         static void Main(string[] args)
         {
-            const string defualtPath = "Test//Sample//movies1.txt";
-            TestUnit.readMovies(defualtPath);
+            const string defualtPath = "Test/Sample/movies1.txt";
+            Dictionary<string, LinkedList<string>> moviesData = TestUnit.readMovies(defualtPath);
+
+            foreach(var pair in moviesData)
+            {
+                Console.WriteLine("key : " + pair.Key + "  value: " + pair.Value.First.Value);
+            }
 
         }
     }
