@@ -55,6 +55,7 @@ namespace Small_world_phenomen
 
                string [] input =  line.Split(seprators);
 
+                //As film name can contain "," so this to prevent error.
                 try
                 {
                     movieData.Add(input[0], actor_list);
@@ -64,7 +65,7 @@ namespace Small_world_phenomen
                 catch(ArgumentException e)
                 {
 
-                    Console.WriteLine(input[0] + input[1]);
+                    //Console.WriteLine(input[0] + input[1]);
                     movieData.Add(input[0] + input[1], actor_list);
                     indexAfterFilmName = 2;
                    
