@@ -44,8 +44,8 @@ namespace Small_world_phenomen
             Dictionary<string, LinkedList<string>> movieData = new Dictionary<string, LinkedList<string>>();
 
             StreamReader reader = new StreamReader(path);
-            
 
+            int indexAfterFilmName = 1;
             
             while(!reader.EndOfStream)
             {
@@ -55,12 +55,26 @@ namespace Small_world_phenomen
 
                string [] input =  line.Split(seprators);
 
-                movieData.Add(input[0] , actor_list);
+                try
+                {
+                    movieData.Add(input[0], actor_list);
 
-                for(int i = 1; i <input.Length;i++)
+                }
+
+                catch(ArgumentException e)
+                {
+
+                    Console.WriteLine(input[0] + input[1]);
+                    movieData.Add(input[0] + input[1], actor_list);
+                    indexAfterFilmName = 2;
+                   
+                }
+                for (int i = indexAfterFilmName; i <input.Length;i++)
                 {
                     actor_list.AddLast(input[i]);
                 }
+
+                indexAfterFilmName = 1;
             }
 
             // return 
