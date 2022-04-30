@@ -36,12 +36,12 @@ namespace Small_world_phenomen
 
             return actors_pairs;
         }
-        public static Dictionary<string, LinkedList<string>> readMovies(string path)
+        public static Dictionary<string, List<string>> readMovies(string path)
         {
             //Movie //num //actor / actor2
 
             char[] seprators = { ',', '/' };
-            Dictionary<string, LinkedList<string>> movieData = new Dictionary<string, LinkedList<string>>();
+            Dictionary<string, List<string>> movieData = new Dictionary<string, List<string>>();
 
             StreamReader reader = new StreamReader(path);
 
@@ -49,7 +49,7 @@ namespace Small_world_phenomen
             
             while(!reader.EndOfStream)
             {
-                LinkedList<string> actor_list = new LinkedList<string>();
+                List<string> actor_list = new List<string>();
 
                 string line = reader.ReadLine();
 
@@ -72,7 +72,7 @@ namespace Small_world_phenomen
                 }
                 for (int i = indexAfterFilmName; i <input.Length;i++)
                 {
-                    actor_list.AddLast(input[i]);
+                    actor_list.Add(input[i]);
                 }
 
                 indexAfterFilmName = 1;
