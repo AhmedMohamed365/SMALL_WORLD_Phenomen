@@ -22,7 +22,13 @@ namespace Small_world_phenomen
             {
                 graph.BFS(pair.Key, pair.Value, graph.adjcencyList);
                 Console.WriteLine(graph.distances[pair.Value]);
+                int max = int.MinValue;
+                Console.WriteLine("Strength: "+graph.path(pair.Key, pair.Value, 0, graph.parents[pair.Value][0],max) );
+                    
             });
+
+
+            Console.Read();
         }
     }
 }

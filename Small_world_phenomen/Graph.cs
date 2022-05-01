@@ -30,7 +30,28 @@ namespace Small_world_phenomen
             distances = new Dictionary<string, int>();
         }
 
+       
+        public int path(string source , string destination ,int n,string adj,int max)
+        {
 
+
+            
+            n += adjcencyList[destination][adj].Count;
+
+            destination = adj;
+
+            if (adj == source)
+                return n;
+
+            
+            foreach (var parent in parents[destination])
+            {
+               max = Math.Max( path(source, destination, n, parent,max)  , max) ;
+
+            }
+
+            return max;
+        }
         public void BFS(string s, string d, Dictionary<string, Dictionary<string, List<string>>> adjList)
         {
             colors = new Dictionary<string, COLORS>();
@@ -46,6 +67,7 @@ namespace Small_world_phenomen
 
                 List<string> parent = new List<string>();
             }
+
 
             colors[s] = COLORS.GRAY;
             distances[s] = 0;
