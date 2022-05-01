@@ -14,90 +14,121 @@ namespace Small_world_phenomen
 
     //   List<string> movies;
     //}
-    public enum  COLORS{ BLACK , WHITE  , GRAY};
+    public enum COLORS { BLACK, WHITE, GRAY };
     class Graph
     {
 
-        public Dictionary<string  , Dictionary<string , List<string> >> adjcencyList; // key : ActorName ,Value :  Actors connected to (with films) 
-
-         public Graph()
+        public Dictionary<string, Dictionary<string, List<string>>> adjcencyList; // key : ActorName ,Value :  Actors connected to (with films) 
+        public Dictionary<string, COLORS> colors;
+        public Dictionary<string, List<string>> parents;
+        public Dictionary<string, int> distances;
+        public Graph()
         {
             adjcencyList = new Dictionary<string, Dictionary<string, List<string>>>();
+            colors = new Dictionary<string, COLORS>();
+            parents = new Dictionary<string, List<string>>();
+            distances = new Dictionary<string, int>();
         }
 
 
-       public  int BFS(string s ,string d, Dictionary<string, Dictionary<string, List<string>>> adjList )
+        public void BFS(string s, string d, Dictionary<string, Dictionary<string, List<string>>> adjList)
         {
-            Dictionary<string, COLORS> colors = new Dictionary<string, COLORS>();
-            Dictionary<string, List<string>> parents = new Dictionary<string, List<string>>();
-            Dictionary<string, int> distances = new Dictionary<string, int>();
+            colors = new Dictionary<string, COLORS>();
+            parents = new Dictionary<string, List<string>>();
+            distances = new Dictionary<string, int>();
             Queue<string> vertices = new Queue<string>();
             int distance = 0;
 
-            foreach ( var actor in adjList)
+            foreach (var actor in adjList)
             {
                 colors.Add(actor.Key, COLORS.WHITE);
                 distances.Add(actor.Key, int.MaxValue);
 
                 List<string> parent = new List<string>();
-                parent.Add("");
-                parents.Add(actor.Key,  parent);
-
-
             }
 
             colors[s] = COLORS.GRAY;
             distances[s] = 0;
-            
+
             vertices.Enqueue(s);
-            
+
             string v = "";
-            string lastOne = "";
-            
+
             while (vertices.Count != 0)
             {
                 v = vertices.Dequeue();
-
-
-                lastOne = adjList[v].Keys.Last();
-
-
-
                 foreach (var adj in adjList[v].Keys)
                 {
 
-                    if (colors[adj] == COLORS.WHITE)
+                    if (colors[adj] == COLORS.WHITE || colors[adj] == COLORS.GRAY)
                     {
                         colors[adj] = COLORS.GRAY;
+                        if (distances[adj] > distances[v] + 1)
+                            distances[adj] = distances[v] + 1;
+                        if (parents.ContainsKey(adj))
+                        {
+                            parents[adj].Add(v);
+                        }
+                        else
+                        {
 
-                        distances[adj] = distances[v] + 1;
-
-                        parents[adj].Add(v);
+                            List<string> parent = new List<string>();
+                            parent.Add(v);
+                            parents[adj] = parent;
+                        }
 
                         vertices.Enqueue(adj);
-                        lastOne = adj;
+
                     }
-
-
                     colors[v] = COLORS.BLACK;
-
-
-
                 }
 
-                if (distances[d] != int.MaxValue &&  (!vertices.Contains(lastOne)))
+                if (distances[d] != int.MaxValue && !(vertices.Contains(d)))
                 {
-                    return distances[d];
+                    return;
                 }
-
-                
-
-
-              
-
             }
+            return;
+        }
+        public void constract_graph(Dictionary<string, List<string>> moviesData)
+        {
+            foreach (var movie in moviesData)
+            {
+                //  Console.Write("key : " +  + "  value: ");
+                foreach (var actor in movie.Value)
+                {
+                    foreach (var friend in movie.Value)
+                    {
 
-            return 0;
+                        if (actor != friend)
+                        {
+                            if (!adjcencyList.ContainsKey(actor))
+                            {
+
+                                List<string> films = new List<string>();
+                                films.Add(movie.Key);
+
+                                Dictionary<string, List<string>> friendInfo = new Dictionary<string, List<string>>();
+                                friendInfo.Add(friend, films);
+                                adjcencyList.Add(actor, friendInfo);
+                            }
+                            else
+                            {
+                                if (!adjcencyList[actor].ContainsKey(friend))
+                                {
+                                    List<string> films = new List<string>();
+                                    films.Add(movie.Key);
+                                    adjcencyList[actor].Add(friend, films);
+                                }
+                                else
+                                {
+                                    adjcencyList[actor][friend].Add(movie.Key);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
