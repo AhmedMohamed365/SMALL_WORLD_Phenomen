@@ -50,10 +50,18 @@ namespace Small_world_phenomen
             distances[s] = 0;
             
             vertices.Enqueue(s);
+            
             string v = "";
+            string lastOne = "";
+            
             while (vertices.Count != 0)
             {
                 v = vertices.Dequeue();
+
+
+                lastOne = adjList[v].Keys.Last();
+
+
 
                 foreach (var adj in adjList[v].Keys)
                 {
@@ -67,7 +75,9 @@ namespace Small_world_phenomen
                         parents[adj].Add(v);
 
                         vertices.Enqueue(adj);
+                        lastOne = adj;
                     }
+
 
                     colors[v] = COLORS.BLACK;
 
@@ -75,11 +85,12 @@ namespace Small_world_phenomen
 
                 }
 
-                if (distances[d] != int.MaxValue)
+                if (distances[d] != int.MaxValue &&  (!vertices.Contains(lastOne)))
                 {
                     return distances[d];
                 }
 
+                
 
 
               

@@ -84,7 +84,7 @@ namespace Small_world_phenomen
             }
 
 
-            graph.BFS("Z", "D", graph.adjcencyList);
+            graph.BFS("A", "D", graph.adjcencyList);
 
             //Queries Question 
             List<KeyValuePair<string, string>> queries = TestUnit.readQueries(defaultSample + "queries1.txt");
