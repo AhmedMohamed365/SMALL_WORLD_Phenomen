@@ -22,12 +22,18 @@ namespace Small_world_phenomen
         public Dictionary<string, COLORS> colors;
         public Dictionary<string, List<string>> parents;
         public Dictionary<string, int> distances;
+
+        public HashSet<string> films;
         public Graph()
         {
             adjcencyList = new Dictionary<string, Dictionary<string, List<string>>>();
             colors = new Dictionary<string, COLORS>();
             parents = new Dictionary<string, List<string>>();
             distances = new Dictionary<string, int>();
+
+            films = new HashSet<string>();
+
+            
         }
 
        
@@ -35,13 +41,23 @@ namespace Small_world_phenomen
         {
 
 
-            
+            foreach (var film in adjcencyList[destination][adj])
+            {
+                
+                films.Add(film);
+
+              //  Console.Write(film + "  ");
+            }
+
+         
+
+            //Console.WriteLine();
             n += adjcencyList[destination][adj].Count;
 
             destination = adj;
 
             if (adj == source)
-                return n;
+                return films.Count;
 
             
             foreach (var parent in parents[destination])
@@ -58,6 +74,7 @@ namespace Small_world_phenomen
             parents = new Dictionary<string, List<string>>();
             distances = new Dictionary<string, int>();
             Queue<string> vertices = new Queue<string>();
+            films = new HashSet<string>();
             int distance = 0;
 
             foreach (var actor in adjList)
@@ -89,7 +106,8 @@ namespace Small_world_phenomen
                             distances[adj] = distances[v] + 1;
                         if (parents.ContainsKey(adj))
                         {
-                            parents[adj].Add(v);
+                            if(! (parents[adj].Contains(v)) && adjcencyList[v][adj].Count == 0)
+                                parents[adj].Add(v);
                         }
                         else
                         {

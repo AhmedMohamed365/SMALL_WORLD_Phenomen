@@ -14,7 +14,7 @@ namespace Small_world_phenomen
         public static List<KeyValuePair<string, string>> readQueries(string path)
         {
             List<KeyValuePair<string, string>> actors_pairs = new List<KeyValuePair<string, string>>(10);
-            char[] seprators = { ',','/' };
+            char[] seprators = { '/' };
             StreamReader reader = new StreamReader(path);
 
             KeyValuePair<string, string> actor_pair;
@@ -40,7 +40,7 @@ namespace Small_world_phenomen
         {
             //Movie //num //actor / actor2
 
-            char[] seprators = { ',', '/' };
+            char[] seprators = {  '/' };
             Dictionary<string, List<string>> movieData = new Dictionary<string, List<string>>();
 
             StreamReader reader = new StreamReader(path);
