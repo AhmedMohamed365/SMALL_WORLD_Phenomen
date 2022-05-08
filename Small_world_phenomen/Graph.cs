@@ -22,7 +22,8 @@ namespace Small_world_phenomen
         public Dictionary<string, COLORS> colors;
         public Dictionary<string, string> parents;
         public Dictionary<string, int> distances;
-
+        public Stack<List<string>> movies;
+        public Stack<string> parentNames;
         public HashSet<string> films;
         public Graph()
         {
@@ -30,38 +31,83 @@ namespace Small_world_phenomen
             colors = new Dictionary<string, COLORS>();
             parents = new Dictionary<string, string>();
             distances = new Dictionary<string, int>();
-
+            
             films = new HashSet<string>();
 
 
         }
 
-
-        public int printPath(string source, string destination, int distance)
+        public void printPath(string source, string destination, int distance)
         {
+            int strength = calcPath(source, destination, distance);
+
+            Console.WriteLine(strength);
+            while (parentNames.Count != 0)
+            {
+
+               Console.Write(parentNames.Pop() + " ");
+                
+               Console.Write("=>");
+
+            }
+
+
+            Console.WriteLine();
+
+            while (movies.Count != 0)
+            {
+                foreach (var movie in movies.Pop())
+                {
+                    Console.Write(movie + " ");
+                }
+                Console.Write("=>");
+
+            }
+            Console.WriteLine();
+        }
+        public int calcPath(string source, string destination, int distance)
+        {
+             movies = new Stack<List<string>>();
+             parentNames = new Stack<string>();
 
             string parent = parents[destination], child;
 
             child = destination;
 
-            Stack<string> movies;
+
+            parentNames.Push(destination);
             int strength = 0;
             for (int i =0; i < distance; i++)
             {
                 strength += adjcencyList[child][parent].Count;
 
+
+                //if(i == distance-1)
+                //    parentNames.Push(source);
+
+                movies.Push(adjcencyList[child][parent]);
+                parentNames.Push(parent);
+
                 child = parent;
 
 
-                if(!parents.ContainsKey(child))
+                
+
+                if (!parents.ContainsKey(child))
                   {
                     break;
                   }
                 parent = parents[child];
 
 
+               
+
 
             }
+
+
+            
+
 
 
 
@@ -98,7 +144,10 @@ namespace Small_world_phenomen
                 v = vertices.Dequeue();
                 foreach (var adj in adjList[v].Keys)
                 {
-
+                    if(colors[d] != COLORS.WHITE )
+                    {
+                        return;
+                    }
                     if (colors[adj] == COLORS.WHITE )
                     {
                         colors[adj] = COLORS.GRAY;

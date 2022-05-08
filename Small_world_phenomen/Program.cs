@@ -11,10 +11,10 @@ namespace Small_world_phenomen
         static void Main(string[] args)
         {
             const string defaultSample = "Test/Sample/";
-            const string defaultComplete = "Test/Complete/small/Case1/";
+            const string defaultComplete = "Test/Complete/small/Case2/";
             //Dictionary<string, List<string>> moviesData = TestUnit.readMovies(defaultSample + "movies1.txt");
 
-            Dictionary<string, List<string>> moviesData = TestUnit.readMovies(defaultComplete + "movies193.txt");
+            Dictionary<string, List<string>> moviesData = TestUnit.readMovies(defaultComplete + "Movies187.txt");
 
 
             Graph graph = new Graph();
@@ -24,16 +24,20 @@ namespace Small_world_phenomen
 
             //List<KeyValuePair<string, string>> queries = TestUnit.readQueries(defaultSample + "queries1.txt");
 
-            List<KeyValuePair<string, string>> queries = TestUnit.readQueries(defaultComplete + "queries110.txt");
+            List<KeyValuePair<string, string>> queries = TestUnit.readQueries(defaultComplete + "queries2.txt");
 
             queries.ForEach(pair =>
             {
                 graph.BFS(pair.Key, pair.Value, graph.adjcencyList);
 
                 int distance = graph.distances[pair.Value];
+                Console.WriteLine(pair.Key + " / " + pair.Value);
+
+                Console.Write(distance + " : ");
+                graph.printPath(pair.Key, pair.Value, distance);
                 Console.WriteLine();
-                int max = int.MinValue;
-                Console.WriteLine("Strength: "+graph.printPath(pair.Key, pair.Value, distance )  );
+
+                //Console.WriteLine("Strength: "+graph.printPath(pair.Key, pair.Value, distance )  );
 
 
                 //foreach(var film in graph.films)
