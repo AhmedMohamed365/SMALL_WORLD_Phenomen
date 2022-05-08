@@ -11,27 +11,36 @@ namespace Small_world_phenomen
         static void Main(string[] args)
         {
             const string defaultSample = "Test/Sample/";
-            const string defaultComplete = "Test/Complete/small/Case2/";
-            Dictionary<string, List<string>> moviesData = TestUnit.readMovies(defaultComplete + "movies187.txt");
+            const string defaultComplete = "Test/Complete/small/Case1/";
+            //Dictionary<string, List<string>> moviesData = TestUnit.readMovies(defaultSample + "movies1.txt");
+
+            Dictionary<string, List<string>> moviesData = TestUnit.readMovies(defaultComplete + "movies193.txt");
+
+
             Graph graph = new Graph();
             graph.constract_graph(moviesData);
 
             
 
-            List<KeyValuePair<string, string>> queries = TestUnit.readQueries(defaultComplete + "queries50.txt");
+            //List<KeyValuePair<string, string>> queries = TestUnit.readQueries(defaultSample + "queries1.txt");
+
+            List<KeyValuePair<string, string>> queries = TestUnit.readQueries(defaultComplete + "queries110.txt");
+
             queries.ForEach(pair =>
             {
                 graph.BFS(pair.Key, pair.Value, graph.adjcencyList);
-                Console.WriteLine(graph.distances[pair.Value]);
+
+                int distance = graph.distances[pair.Value];
+                Console.WriteLine();
                 int max = int.MinValue;
-                Console.WriteLine("Strength: "+graph.path(pair.Key, pair.Value, 0, graph.parents[pair.Value][0],max) );
+                Console.WriteLine("Strength: "+graph.printPath(pair.Key, pair.Value, distance )  );
 
 
-                foreach(var film in graph.films)
-                {
-                    Console.Write(film + " ");
+                //foreach(var film in graph.films)
+                //{
+                //    Console.Write(film + " ");
 
-                }
+                //}
 
                 Console.WriteLine();
             });

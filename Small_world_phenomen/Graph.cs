@@ -20,7 +20,7 @@ namespace Small_world_phenomen
 
         public Dictionary<string, Dictionary<string, List<string>>> adjcencyList; // key : ActorName ,Value :  Actors connected to (with films) 
         public Dictionary<string, COLORS> colors;
-        public Dictionary<string, List<string>> parents;
+        public Dictionary<string, string> parents;
         public Dictionary<string, int> distances;
 
         public HashSet<string> films;
@@ -28,50 +28,51 @@ namespace Small_world_phenomen
         {
             adjcencyList = new Dictionary<string, Dictionary<string, List<string>>>();
             colors = new Dictionary<string, COLORS>();
-            parents = new Dictionary<string, List<string>>();
+            parents = new Dictionary<string, string>();
             distances = new Dictionary<string, int>();
 
             films = new HashSet<string>();
 
-            
+
         }
 
-       
-        public int path(string source , string destination ,int n,string adj,int max)
+
+        public int printPath(string source, string destination, int distance)
         {
 
+            string parent = parents[destination], child;
 
-            foreach (var film in adjcencyList[destination][adj])
+            child = destination;
+
+            Stack<string> movies;
+            int strength = 0;
+            for (int i =0; i < distance; i++)
             {
-                
-                films.Add(film);
+                strength += adjcencyList[child][parent].Count;
 
-              //  Console.Write(film + "  ");
-            }
+                child = parent;
 
-         
 
-            //Console.WriteLine();
-            n += adjcencyList[destination][adj].Count;
+                if(!parents.ContainsKey(child))
+                  {
+                    break;
+                  }
+                parent = parents[child];
 
-            destination = adj;
 
-            if (adj == source)
-                return films.Count;
-
-            
-            foreach (var parent in parents[destination])
-            {
-               max = Math.Max( path(source, destination, n, parent,max)  , max) ;
 
             }
 
-            return max;
+
+
+            return strength;
+
+
         }
         public void BFS(string s, string d, Dictionary<string, Dictionary<string, List<string>>> adjList)
         {
             colors = new Dictionary<string, COLORS>();
-            parents = new Dictionary<string, List<string>>();
+            parents = new Dictionary<string, string>();
             distances = new Dictionary<string, int>();
             Queue<string> vertices = new Queue<string>();
             films = new HashSet<string>();
@@ -82,7 +83,6 @@ namespace Small_world_phenomen
                 colors.Add(actor.Key, COLORS.WHITE);
                 distances.Add(actor.Key, int.MaxValue);
 
-                List<string> parent = new List<string>();
             }
 
 
@@ -99,34 +99,27 @@ namespace Small_world_phenomen
                 foreach (var adj in adjList[v].Keys)
                 {
 
-                    if (colors[adj] == COLORS.WHITE || colors[adj] == COLORS.GRAY)
+                    if (colors[adj] == COLORS.WHITE )
                     {
                         colors[adj] = COLORS.GRAY;
-                        if (distances[adj] > distances[v] + 1)
+                        //if (distances[adj] > distances[v] + 1)
+
                             distances[adj] = distances[v] + 1;
-                        if (parents.ContainsKey(adj))
-                        {
-                            if(! (parents[adj].Contains(v)) && adjcencyList[v][adj].Count == 0)
-                                parents[adj].Add(v);
-                        }
-                        else
+                        if (!parents.ContainsKey(adj))
                         {
 
-                            List<string> parent = new List<string>();
-                            parent.Add(v);
-                            parents[adj] = parent;
+                            parents.Add(adj,v);
                         }
+                        
 
                         vertices.Enqueue(adj);
 
                     }
+
                     colors[v] = COLORS.BLACK;
                 }
 
-                if (distances[d] != int.MaxValue && !(vertices.Contains(d)))
-                {
-                    return;
-                }
+               
             }
             return;
         }
@@ -169,6 +162,32 @@ namespace Small_world_phenomen
                     }
                 }
             }
+
+
+            //
+            //Sorted Dictionary
+
+            for (int i = 0; i < adjcencyList.Count; i++)
+            {
+
+                var actor = adjcencyList.ElementAt(i).Key;
+                adjcencyList[actor] = adjcencyList[actor].OrderByDescending(x => x.Value.Count).ToDictionary(x => x.Key, x => x.Value);
+            }
+
+
+            // var sortedDict = from entry in adjcencyList[actor] orderby entry.Value.Count descending select entry;
+
+            //var mySortedList = adjcencyList[actor].OrderBy(d => d.Value.CompareTo(d.Value)).ToList();
+            //mySortedList.Sort()
         }
+
     }
+
+
+
+
 }
+
+        //
+    
+
