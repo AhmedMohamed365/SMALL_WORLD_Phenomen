@@ -1,279 +1,305 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
 
-namespace Small_world_phenomen
-{
+//namespace Small_world_phenomen
+//{
 
-    //Expermintal Class
-    //public class Actor_vertex // Actor with films that participate in 
-    //{
-    //    string actorName;
+//    //Expermintal Class
+//    //public class Actor_vertex // Actor with films that participate in 
+//    //{
+//    //    string actorName;
 
-    //   List<string> movies;
-    //}
-    public enum COLORS { BLACK, WHITE, GRAY };
-    class Graph
-    {
+//    //   List<string> movies;
+//    //}
+//    public enum COLORS { BLACK, WHITE, GRAY };
 
-        public Dictionary<string, Dictionary<LinkedListNode<string>, LinkedList<string>>> adjcencyList; // key : ActorName ,Value :  Actors connected to (with films) 
-        public Dictionary<string, COLORS> colors;
-        public Dictionary<string, string> parents;
-        public Dictionary<string, int> distances;
-        public Stack<List<string>> movies;
-        public Stack<string> parentNames;
-        public HashSet<string> films;
-        public Graph()
-        {
-            adjcencyList = new Dictionary<LinkedListNode<string>, LinkedList<string>>> ();
-            colors = new Dictionary<string, COLORS>();
-            parents = new Dictionary<string, string>();
-            distances = new Dictionary<string, int>();
+    
 
-            films = new HashSet<string>();
+  
+//    class Graph
+//    {
 
+//        public Dictionary<string, Dictionary<string, LinkedList<string>>> adjcencyList; // key : ActorName ,Value :  Actors connected to (with films) 
+//        public Dictionary<string, COLORS> colors;
+//        public Dictionary<string, string> parents;
+//        public Dictionary<string, int> distances;
+//        public Stack<LinkedList<string>> movies;
+//        public Stack<string> parentNames;
+//        public HashSet<string> films;
+//        public Graph()
+//        {
+//            adjcencyList = new Dictionary<string, Dictionary<string, LinkedList<string>>>() ;
+//            colors = new Dictionary<string, COLORS>();
+//            parents = new Dictionary<string, string>();
+//            distances = new Dictionary<string, int>();
 
-        }
+//            films = new HashSet<string>();
 
-        public void printPath(string source, string destination, int distance)
-        {
-            int strength = calcPath(source, destination, distance);
 
-            Console.WriteLine(strength);
-            while (parentNames.Count != 0)
-            {
+//        }
 
-                Console.Write(parentNames.Pop() + " ");
+//        public void printPath(string source, string destination, int distance)
+//        {
+//            int strength = calcPath(source, destination, distance);
 
-                Console.Write("=>");
+//            Console.WriteLine(strength);
+//            while (parentNames.Count != 0)
+//            {
 
-            }
+//                Console.Write(parentNames.Pop() + " ");
 
+//                Console.Write("=>");
 
-            Console.WriteLine();
+//            }
 
-            while (movies.Count != 0)
-            {
-                foreach (var movie in movies.Pop())
-                {
-                    Console.Write(movie + " ");
-                }
-                Console.Write("=>");
 
-            }
-            Console.WriteLine();
-        }
-        public int calcPath(string source, string destination, int distance)
-        {
-            movies = new Stack<List<string>>();
-            parentNames = new Stack<string>();
+//            Console.WriteLine();
 
-            string parent = parents[destination], child;
+//            while (movies.Count != 0)
+//            {
+//                foreach (var movie in movies.Pop())
+//                {
+//                    Console.Write(movie + " ");
+//                }
+//                Console.Write("=>");
 
-            child = destination;
+//            }
+//            Console.WriteLine();
+//        }
+//        public int calcPath(string source, string destination, int distance)
+//        {
+//            movies = new Stack<LinkedList<string>>();
+//            parentNames = new Stack<string>();
 
+//            string parent = parents[destination], child;
 
-            parentNames.Push(destination);
-            int strength = 0;
-            for (int i = 0; i < distance; i++)
-            {
-                strength += adjcencyList[child][parent].Count;
+//            child = destination;
 
 
-                //if(i == distance-1)
-                //    parentNames.Push(source);
+//            parentNames.Push(destination);
+//            int strength = 0;
+//            for (int i = 0; i < distance; i++)
+//            {
+//                strength += adjcencyList[child][parent].Count;
 
-                movies.Push(adjcencyList[child][parent]);
-                parentNames.Push(parent);
 
-                child = parent;
+//                //if(i == distance-1)
+//                //    parentNames.Push(source);
 
+//                movies.Push(adjcencyList[child][parent]);
+//                parentNames.Push(parent);
 
+//                child = parent;
 
 
-                if (!parents.ContainsKey(child))
-                {
-                    break;
-                }
-                parent = parents[child];
 
 
+//                if (!parents.ContainsKey(child))
+//                {
+//                    break;
+//                }
+//                parent = parents[child];
 
 
 
-            }
 
 
+//            }
 
 
 
 
 
-            return strength;
 
 
-        }
-        public void BFS(string s, string d, Dictionary<string, Dictionary<string, List<string>>> adjList, bool flag = true)
-        {
-            colors = new Dictionary<string, COLORS>();
-            parents = new Dictionary<string, string>();
-            distances = new Dictionary<string, int>();
-            Queue<string> vertices = new Queue<string>();
-            films = new HashSet<string>();
-            int distance = 0;
+//            return strength;
 
-            foreach (var actor in adjList)
-            {
-                colors.Add(actor.Key, COLORS.WHITE);
-                distances.Add(actor.Key, int.MaxValue);
 
-            }
+//        }
+//        public void BFS(string s, string d, Dictionary<string, Dictionary<string, LinkedList<string>>> adjList, bool flag = true)
+//        {
+//            colors = new Dictionary<string, COLORS>();
+//            parents = new Dictionary<string, string>();
+//            distances = new Dictionary<string, int>();
+//            Queue<string> vertices = new Queue<string>();
+//            films = new HashSet<string>();
+//            int distance = 0;
 
+//            foreach (var actor in adjList)
+//            {
+//                colors.Add(actor.Key, COLORS.WHITE);
+//                distances.Add(actor.Key, int.MaxValue);
 
-            colors[s] = COLORS.GRAY;
-            distances[s] = 0;
+//            }
 
-            vertices.Enqueue(s);
 
-            string v = "";
+//            colors[s] = COLORS.GRAY;
+//            distances[s] = 0;
 
-            while (vertices.Count != 0)
-            {
-                v = vertices.Dequeue();
-                foreach (var adj in adjList[v].Keys)
-                {
-                    if (colors[d] != COLORS.WHITE && flag)
-                    {
-                        return;
-                    }
-                    if (colors[adj] == COLORS.WHITE)
-                    {
-                        colors[adj] = COLORS.GRAY;
-                        //if (distances[adj] > distances[v] + 1)
+//            vertices.Enqueue(s);
 
-                        distances[adj] = distances[v] + 1;
-                        if (!parents.ContainsKey(adj))
-                        {
+//            string v = "";
 
-                            parents.Add(adj, v);
-                        }
+//            while (vertices.Count != 0)
+//            {
+//                v = vertices.Dequeue();
+//                foreach (var adj in adjList[v].Keys)
+//                {
+//                    if (colors[d] != COLORS.WHITE && flag)
+//                    {
+//                        return;
+//                    }
+//                    if (colors[adj] == COLORS.WHITE)
+//                    {
+//                        colors[adj] = COLORS.GRAY;
+//                        //if (distances[adj] > distances[v] + 1)
 
+//                        distances[adj] = distances[v] + 1;
+//                        if (!parents.ContainsKey(adj))
+//                        {
 
-                        vertices.Enqueue(adj);
+//                            parents.Add(adj, v);
+//                        }
 
-                    }
 
-                    colors[v] = COLORS.BLACK;
-                }
+//                        vertices.Enqueue(adj);
 
+//                    }
 
-            }
-            return;
-        }
+//                    colors[v] = COLORS.BLACK;
+//                }
 
-        //summary
-        //Another way to do this is to use one LinkedList for actors'film
-        //and make variation for one node only 
-        //so this will save time and memory 
-        //Let's try doing it.
 
+//            }
+//            return;
+//        }
 
+//        //summary
+//        //Another way to do this is to use one LinkedList for actors'film
+//        //and make variation for one node only 
+//        //so this will save time and memory 
+//        //Let's try doing it.
 
-        //public void constract_graph(Dictionary<string, List<string>> moviesData)
-        //{
-        //    foreach (var movie in moviesData)
-        //    {
-        //        //  Console.Write("key : " +  + "  value: ");
-        //        foreach (var actor in movie.Value)
-        //        {
 
-        //            foreach (var friend in movie.Value)
-        //            {
 
-        //                if (actor != friend)
-        //                {
-        //                    if (!adjcencyList.ContainsKey(actor))
-        //                    {
+//        //public void constract_graph(Dictionary<string, List<string>> moviesData)
+//        //{
+//        //    foreach (var movie in moviesData)
+//        //    {
+//        //        //  Console.Write("key : " +  + "  value: ");
+//        //        foreach (var actor in movie.Value)
+//        //        {
 
-        //                        List<string> films = new List<string>();
-        //                        films.Add(movie.Key);
+//        //            foreach (var friend in movie.Value)
+//        //            {
 
-        //                        Dictionary<string, List<string>> friendInfo = new Dictionary<string, List<string>>();
-        //                        friendInfo.Add(friend, films);
-        //                        adjcencyList.Add(actor, friendInfo);
-        //                    }
-        //                    else
-        //                    {
-        //                        if (!adjcencyList[actor].ContainsKey(friend))
-        //                        {
-        //                            List<string> films = new List<string>();
-        //                            films.Add(movie.Key);
-        //                            adjcencyList[actor].Add(friend, films);
-        //                        }
-        //                        else
-        //                        {
-        //                            adjcencyList[actor][friend].Add(movie.Key);
-        //                        }
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    }
+//        //                if (actor != friend)
+//        //                {
+//        //                    if (!adjcencyList.ContainsKey(actor))
+//        //                    {
 
+//        //                        List<string> films = new List<string>();
+//        //                        films.Add(movie.Key);
 
+//        //                        Dictionary<string, List<string>> friendInfo = new Dictionary<string, List<string>>();
+//        //                        friendInfo.Add(friend, films);
+//        //                        adjcencyList.Add(actor, friendInfo);
+//        //                    }
+//        //                    else
+//        //                    {
+//        //                        if (!adjcencyList[actor].ContainsKey(friend))
+//        //                        {
+//        //                            List<string> films = new List<string>();
+//        //                            films.Add(movie.Key);
+//        //                            adjcencyList[actor].Add(friend, films);
+//        //                        }
+//        //                        else
+//        //                        {
+//        //                            adjcencyList[actor][friend].Add(movie.Key);
+//        //                        }
+//        //                    }
+//        //                }
+//        //            }
+//        //        }
+//        //    }
 
-        //    //
-        //    //Sorted Dictionary
 
-        //    for (int i = 0; i < adjcencyList.Count; i++)
-        //    {
 
-        //        var actor = adjcencyList.ElementAt(i).Key;
-        //        adjcencyList[actor] = adjcencyList[actor].OrderByDescending(x => x.Value.Count).ToDictionary(x => x.Key, x => x.Value);
-        //    }
+//        //    //
+//        //    //Sorted Dictionary
 
+//        //    for (int i = 0; i < adjcencyList.Count; i++)
+//        //    {
 
-        //    // var sortedDict = from entry in adjcencyList[actor] orderby entry.Value.Count descending select entry;
+//        //        var actor = adjcencyList.ElementAt(i).Key;
+//        //        adjcencyList[actor] = adjcencyList[actor].OrderByDescending(x => x.Value.Count).ToDictionary(x => x.Key, x => x.Value);
+//        //    }
 
-        //    //var mySortedList = adjcencyList[actor].OrderBy(d => d.Value.CompareTo(d.Value)).ToList();
-        //    //mySortedList.Sort()
-        //}
 
-        public void constract_graph(Dictionary<string, LinkedList<string>> moviesData)
-        {
-            foreach (var movie in moviesData)
-            {
-                //  Console.Write("key : " +  + "  value: ");
-                for (LinkedListNode<string> actor = movie.Value.First; actor.Next != null; )
-                {
+//        //    // var sortedDict = from entry in adjcencyList[actor] orderby entry.Value.Count descending select entry;
 
-                    //COPYING list of actors except the actor itself.
-                    LinkedList<string> friendsActor = new LinkedList<string>(movie.Value);
-                    LinkedListNode<string> nodeToRemove = actor;
-                    friendsActor.Remove(nodeToRemove);
-                    actor = actor.Next;
-                    Dictionary<LinkedListNode<string>, LinkedList<string>> friendInfo = new Dictionary<LinkedListNode<string>, LinkedList<string>>(friendsActor.Count);
+//        //    //var mySortedList = adjcencyList[actor].OrderBy(d => d.Value.CompareTo(d.Value)).ToList();
+//        //    //mySortedList.Sort()
+//        //}
 
+//        public void constract_graph(Dictionary<string, LinkedList<string>> moviesData)
+//        {
+//            foreach (var movie in moviesData)
+//            {
+//                //  Console.Write("key : " +  + "  value: ");
+//                for (Node actor = movie.Value.First; actor.Next != null; )
+//                {
 
-                    var films = new LinkedList<string>();
-                    films.AddLast(movie.Key);
-                    friendInfo.Add(actor, films );
+//                    if (!adjcencyList.ContainsKey(actor.Value))
+//                    {
 
-                    adjcencyList.Add(actor.Value, friendInfo);
 
+//                        //COPYING list of actors except the actor itself.
+//                        LinkedList<string> friendsActor = movie.Value;
+                        
+                        
+                        
+//                        friendsActor.Remove(actor);
+                      
+//                        Dictionary<string, LinkedList<string>> friendInfo = new Dictionary<string, LinkedList<string>>(friendsActor.Count);
 
-                }
-            }
 
-        }
+//                        var films = new LinkedList<string>();
+//                        films.AddLast(movie.Key);
+//                        friendInfo.Add(actor.Value, films);
 
+//                        adjcencyList.Add(actor.Value, friendInfo);
 
+//                    }
 
-    }
-}
 
-        //
+//                    else
+//                    {
+//                        if (!adjcencyList[actor.Value].ContainsKey(actor.Next.Value))
+//                        {
+//                            LinkedList<string> films = new LinkedList<string>();
+//                            films.AddLast(movie.Key);
+//                            adjcencyList[actor.Value].Add(actor.Next.Value, films);
+//                        }
+//                        else
+//                        {
+//                            adjcencyList[actor.Value][actor.Next.Value].AddLast(movie.Key);
+//                        }
+//                    }
+
+//                }
+//            }
+
+//        }
+
+
+
+//    }
+//}
+
+//        //
     
 
