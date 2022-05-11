@@ -115,7 +115,7 @@ namespace Small_world_phenomen
 
 
         }
-        public void BFS(string s, string d, Dictionary<string, Dictionary<string, List<string>>> adjList)
+        public void BFS(string s, string d, Dictionary<string, Dictionary<string, List<string>>> adjList,bool flag = true)
         {
             colors = new Dictionary<string, COLORS>();
             parents = new Dictionary<string, string>();
@@ -144,7 +144,7 @@ namespace Small_world_phenomen
                 v = vertices.Dequeue();
                 foreach (var adj in adjList[v].Keys)
                 {
-                    if(colors[d] != COLORS.WHITE )
+                    if(colors[d] != COLORS.WHITE && flag )
                     {
                         return;
                     }
@@ -172,6 +172,15 @@ namespace Small_world_phenomen
             }
             return;
         }
+
+        //summary
+        //Another way to do this is to use one LinkedList for actors'film
+        //and make variation for one node only 
+        //so this will save time and memory 
+        //Let's try doing it.
+        
+
+        
         public void constract_graph(Dictionary<string, List<string>> moviesData)
         {
             foreach (var movie in moviesData)
