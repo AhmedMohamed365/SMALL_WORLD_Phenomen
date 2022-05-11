@@ -14,7 +14,7 @@ namespace Small_world_phenomen
             const string defaultComplete = "Test/Complete/extreme/";
             //Dictionary<string, List<string>> moviesData = TestUnit.readMovies(defaultSample + "movies1.txt");
 
-            Dictionary<string, List<string>> moviesData = TestUnit.readMovies(defaultComplete + "Movies122806.txt");
+            Dictionary<string, LinkedList<string>> moviesData = TestUnit.readMovies2(defaultComplete + "Movies122806.txt");
 
 
             Graph graph = new Graph();

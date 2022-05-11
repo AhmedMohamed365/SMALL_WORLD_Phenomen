@@ -18,7 +18,7 @@ namespace Small_world_phenomen
     class Graph
     {
 
-        public Dictionary<string, Dictionary<string, List<string>>> adjcencyList; // key : ActorName ,Value :  Actors connected to (with films) 
+        public Dictionary<string, Dictionary<LinkedListNode<string>, LinkedList<string>>> adjcencyList; // key : ActorName ,Value :  Actors connected to (with films) 
         public Dictionary<string, COLORS> colors;
         public Dictionary<string, string> parents;
         public Dictionary<string, int> distances;
@@ -27,11 +27,11 @@ namespace Small_world_phenomen
         public HashSet<string> films;
         public Graph()
         {
-            adjcencyList = new Dictionary<string, Dictionary<string, List<string>>>();
+            adjcencyList = new Dictionary<LinkedListNode<string>, LinkedList<string>>> ();
             colors = new Dictionary<string, COLORS>();
             parents = new Dictionary<string, string>();
             distances = new Dictionary<string, int>();
-            
+
             films = new HashSet<string>();
 
 
@@ -45,9 +45,9 @@ namespace Small_world_phenomen
             while (parentNames.Count != 0)
             {
 
-               Console.Write(parentNames.Pop() + " ");
-                
-               Console.Write("=>");
+                Console.Write(parentNames.Pop() + " ");
+
+                Console.Write("=>");
 
             }
 
@@ -67,8 +67,8 @@ namespace Small_world_phenomen
         }
         public int calcPath(string source, string destination, int distance)
         {
-             movies = new Stack<List<string>>();
-             parentNames = new Stack<string>();
+            movies = new Stack<List<string>>();
+            parentNames = new Stack<string>();
 
             string parent = parents[destination], child;
 
@@ -77,7 +77,7 @@ namespace Small_world_phenomen
 
             parentNames.Push(destination);
             int strength = 0;
-            for (int i =0; i < distance; i++)
+            for (int i = 0; i < distance; i++)
             {
                 strength += adjcencyList[child][parent].Count;
 
@@ -91,22 +91,22 @@ namespace Small_world_phenomen
                 child = parent;
 
 
-                
+
 
                 if (!parents.ContainsKey(child))
-                  {
+                {
                     break;
-                  }
+                }
                 parent = parents[child];
 
 
-               
+
 
 
             }
 
 
-            
+
 
 
 
@@ -115,7 +115,7 @@ namespace Small_world_phenomen
 
 
         }
-        public void BFS(string s, string d, Dictionary<string, Dictionary<string, List<string>>> adjList,bool flag = true)
+        public void BFS(string s, string d, Dictionary<string, Dictionary<string, List<string>>> adjList, bool flag = true)
         {
             colors = new Dictionary<string, COLORS>();
             parents = new Dictionary<string, string>();
@@ -144,22 +144,22 @@ namespace Small_world_phenomen
                 v = vertices.Dequeue();
                 foreach (var adj in adjList[v].Keys)
                 {
-                    if(colors[d] != COLORS.WHITE && flag )
+                    if (colors[d] != COLORS.WHITE && flag)
                     {
                         return;
                     }
-                    if (colors[adj] == COLORS.WHITE )
+                    if (colors[adj] == COLORS.WHITE)
                     {
                         colors[adj] = COLORS.GRAY;
                         //if (distances[adj] > distances[v] + 1)
 
-                            distances[adj] = distances[v] + 1;
+                        distances[adj] = distances[v] + 1;
                         if (!parents.ContainsKey(adj))
                         {
 
-                            parents.Add(adj,v);
+                            parents.Add(adj, v);
                         }
-                        
+
 
                         vertices.Enqueue(adj);
 
@@ -168,7 +168,7 @@ namespace Small_world_phenomen
                     colors[v] = COLORS.BLACK;
                 }
 
-               
+
             }
             return;
         }
@@ -178,72 +178,100 @@ namespace Small_world_phenomen
         //and make variation for one node only 
         //so this will save time and memory 
         //Let's try doing it.
-        
 
-        
-        public void constract_graph(Dictionary<string, List<string>> moviesData)
+
+
+        //public void constract_graph(Dictionary<string, List<string>> moviesData)
+        //{
+        //    foreach (var movie in moviesData)
+        //    {
+        //        //  Console.Write("key : " +  + "  value: ");
+        //        foreach (var actor in movie.Value)
+        //        {
+
+        //            foreach (var friend in movie.Value)
+        //            {
+
+        //                if (actor != friend)
+        //                {
+        //                    if (!adjcencyList.ContainsKey(actor))
+        //                    {
+
+        //                        List<string> films = new List<string>();
+        //                        films.Add(movie.Key);
+
+        //                        Dictionary<string, List<string>> friendInfo = new Dictionary<string, List<string>>();
+        //                        friendInfo.Add(friend, films);
+        //                        adjcencyList.Add(actor, friendInfo);
+        //                    }
+        //                    else
+        //                    {
+        //                        if (!adjcencyList[actor].ContainsKey(friend))
+        //                        {
+        //                            List<string> films = new List<string>();
+        //                            films.Add(movie.Key);
+        //                            adjcencyList[actor].Add(friend, films);
+        //                        }
+        //                        else
+        //                        {
+        //                            adjcencyList[actor][friend].Add(movie.Key);
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+
+
+
+        //    //
+        //    //Sorted Dictionary
+
+        //    for (int i = 0; i < adjcencyList.Count; i++)
+        //    {
+
+        //        var actor = adjcencyList.ElementAt(i).Key;
+        //        adjcencyList[actor] = adjcencyList[actor].OrderByDescending(x => x.Value.Count).ToDictionary(x => x.Key, x => x.Value);
+        //    }
+
+
+        //    // var sortedDict = from entry in adjcencyList[actor] orderby entry.Value.Count descending select entry;
+
+        //    //var mySortedList = adjcencyList[actor].OrderBy(d => d.Value.CompareTo(d.Value)).ToList();
+        //    //mySortedList.Sort()
+        //}
+
+        public void constract_graph(Dictionary<string, LinkedList<string>> moviesData)
         {
             foreach (var movie in moviesData)
             {
                 //  Console.Write("key : " +  + "  value: ");
-                foreach (var actor in movie.Value)
+                for (LinkedListNode<string> actor = movie.Value.First; actor.Next != null; )
                 {
-                    foreach (var friend in movie.Value)
-                    {
 
-                        if (actor != friend)
-                        {
-                            if (!adjcencyList.ContainsKey(actor))
-                            {
+                    //COPYING list of actors except the actor itself.
+                    LinkedList<string> friendsActor = new LinkedList<string>(movie.Value);
+                    LinkedListNode<string> nodeToRemove = actor;
+                    friendsActor.Remove(nodeToRemove);
+                    actor = actor.Next;
+                    Dictionary<LinkedListNode<string>, LinkedList<string>> friendInfo = new Dictionary<LinkedListNode<string>, LinkedList<string>>(friendsActor.Count);
 
-                                List<string> films = new List<string>();
-                                films.Add(movie.Key);
 
-                                Dictionary<string, List<string>> friendInfo = new Dictionary<string, List<string>>();
-                                friendInfo.Add(friend, films);
-                                adjcencyList.Add(actor, friendInfo);
-                            }
-                            else
-                            {
-                                if (!adjcencyList[actor].ContainsKey(friend))
-                                {
-                                    List<string> films = new List<string>();
-                                    films.Add(movie.Key);
-                                    adjcencyList[actor].Add(friend, films);
-                                }
-                                else
-                                {
-                                    adjcencyList[actor][friend].Add(movie.Key);
-                                }
-                            }
-                        }
-                    }
+                    var films = new LinkedList<string>();
+                    films.AddLast(movie.Key);
+                    friendInfo.Add(actor, films );
+
+                    adjcencyList.Add(actor.Value, friendInfo);
+
+
                 }
             }
 
-
-            //
-            //Sorted Dictionary
-
-            for (int i = 0; i < adjcencyList.Count; i++)
-            {
-
-                var actor = adjcencyList.ElementAt(i).Key;
-                adjcencyList[actor] = adjcencyList[actor].OrderByDescending(x => x.Value.Count).ToDictionary(x => x.Key, x => x.Value);
-            }
-
-
-            // var sortedDict = from entry in adjcencyList[actor] orderby entry.Value.Count descending select entry;
-
-            //var mySortedList = adjcencyList[actor].OrderBy(d => d.Value.CompareTo(d.Value)).ToList();
-            //mySortedList.Sort()
         }
 
+
+
     }
-
-
-
-
 }
 
         //

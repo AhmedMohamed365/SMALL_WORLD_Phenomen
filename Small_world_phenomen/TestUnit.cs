@@ -84,6 +84,54 @@ namespace Small_world_phenomen
             return movieData;
         }
 
+        public static Dictionary<string, LinkedList<string>> readMovies2(string path)
+        {
+            //Movie //num //actor / actor2
+
+            char[] seprators = { '/' };
+            Dictionary<string, LinkedList<string>> movieData = new Dictionary<string, LinkedList<string>>();
+
+            StreamReader reader = new StreamReader(path);
+
+            int indexAfterFilmName = 1;
+
+            while (!reader.EndOfStream)
+            {
+                LinkedList<string> actor_list = new LinkedList<string>();
+
+                string line = reader.ReadLine();
+
+                string[] input = line.Split(seprators);
+
+                //As film name can contain "," so this to prevent error.
+                try
+                {
+                    movieData.Add(input[0], actor_list);
+
+                }
+
+                catch (ArgumentException e)
+                {
+
+                    //Console.WriteLine(input[0] + input[1]);
+                    movieData.Add(input[0] + input[1], actor_list);
+                    indexAfterFilmName = 2;
+
+                }
+                for (int i = indexAfterFilmName; i < input.Length; i++)
+                {
+                    actor_list.AddLast(input[i]);
+                }
+
+                indexAfterFilmName = 1;
+            }
+
+            // return 
+
+
+            return movieData;
+        }
+
         public static bool testCode()
         {
 
