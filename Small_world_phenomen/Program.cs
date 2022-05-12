@@ -53,7 +53,7 @@ namespace Small_world_phenomen
 
             //Console.Read();
 
-            uint size = 500000;
+            uint size = 10;
             Stopwatch sw = new Stopwatch();
 
             sw.Start();
@@ -61,9 +61,18 @@ namespace Small_world_phenomen
             // ...
 
             LinkedList list = new LinkedList();
+            int unicode = 65;
+
+
             for (int i = 0; i < size; i++)
             {
-                list.AddLast("A");
+
+
+                char character = (char)unicode;
+                string text = character.ToString();
+                list.AddLast(text);
+
+                unicode++;
             }
 
             Node node = list.First;
@@ -76,14 +85,33 @@ namespace Small_world_phenomen
 
             Console.WriteLine(" my Copied Linked list");
 
-            LinkedList list2 = new LinkedList(list, list.First.Next);
+            LinkedList[] lists = new LinkedList[size] ;
 
-            node = list2.First;
+            LinkedList<string> [] lists2 = new LinkedList<string>[5];
 
-           
+            LinkedList<string> list11 = new LinkedList<string>();
+          
+
+
+            for (int i = 0; i < size; i++)
+            {
+                lists[i] = new LinkedList(list,node);
+                 node = node.Next;
+
+            }
+
+
+            for (int i = 0; i < 5; i++)
+            {
+
+                lists[i].printList();
+
+                Console.WriteLine();
+            }
+
             sw.Stop();
 
-            Console.WriteLine("Elapsed={0}", sw.Elapsed);
+            Console.WriteLine("Elapsed={0}", sw.Elapsed.TotalSeconds);
 
 
 
@@ -95,37 +123,32 @@ namespace Small_world_phenomen
 
             sw2.Start();
 
-            LinkedList<string> list11 = new LinkedList<string>();
-
-            for (int i = 0; i < size; i++)
-            {
-                list11.AddLast("A");
-            }
-
-            LinkedListNode<string> node11 = list11.First;
-
-            Console.WriteLine("standard Linked list");
-
             
 
+            //LinkedListNode<string> node11 = list11.First;
 
-
-            Console.WriteLine(" standard Copied Linked list");
-
-            LinkedList<string> list222 = new LinkedList<string>(list11);
-
-            node11 = list222.First;
-
-            
-
-            sw2.Stop();
-
-            Console.WriteLine("Elapsed2={0}", sw2.Elapsed);
+            //Console.WriteLine("standard Linked list");
 
 
 
 
-            Console.WriteLine("Speed Up={0}", sw2.Elapsed.TotalSeconds / sw.Elapsed.TotalSeconds  +"X");
+
+            //Console.WriteLine(" standard Copied Linked list");
+
+            //LinkedList<string> list222 = new LinkedList<string>(list11);
+
+            //node11 = list222.First;
+
+
+
+            //sw2.Stop();
+
+            //Console.WriteLine("Elapsed2={0}", sw2.Elapsed);
+
+
+
+
+            //Console.WriteLine("Speed Up={0}", sw2.Elapsed.TotalSeconds / sw.Elapsed.TotalSeconds  +"X");
 
 
 

@@ -22,7 +22,7 @@ namespace Small_world_phenomen
         {
             First = null;
             Last = null;
-            
+            joint = Last;
         }
 
 
@@ -64,19 +64,28 @@ namespace Small_world_phenomen
         public LinkedList(LinkedList copiedList, Node node)
         {
             //Simply trim  from first or last of the list 
-                if (node == copiedList.First)
+                if (node.value == copiedList.First.value)
                 {
                     First = copiedList.First.Next;
                     Last = copiedList.Last;
-                }
 
 
-                else if (node == copiedList.Last)
+                joint = Last;
+                
+            }
+
+
+                else if (node.value == copiedList.Last.value)
                 {
-                    First = copiedList.First;
+                     First = copiedList.First;
+
+                    joint = copiedList.Last;
 
                     Last = copiedList.Last.Previous;
-                }
+
+                    
+                    
+            }
 
         
             //if it is somewehere in the middle 
@@ -84,21 +93,25 @@ namespace Small_world_phenomen
             {
                 Node copiedNode = new Node();
 
-                copiedNode = node.Previous;
+                copiedNode.Previous = node.Previous;
+                copiedNode.value = node.value;
+                
                 copiedNode.Next = node.Next;
+                joint = copiedNode;
 
 
-               
 
-                //Seperate the list into 2 lists with one different node 
+                //Seperate the list into 2 lists with one different node.
                 First = copiedList.First;
 
-                joint = copiedNode;
+                
+               
                 Last = copiedList.Last;
                 
               
                 
 
+               
                 
             }
 
@@ -112,6 +125,30 @@ namespace Small_world_phenomen
             
         }
 
+
+        public void printList()
+        {
+           Node  node = this.First;
+
+            for (; node.Previous != this.joint.Previous; node = node.Next)
+            {
+                Console.Write(node.value + " ");
+
+            }
+
+
+            if (this.joint != this.Last)
+                node = this.joint.Next;
+
+
+            for (; node != null; node = node.Next)
+            {
+                Console.Write(node.value + " ");
+
+            }
+
+            
+        }
 
     };
 
