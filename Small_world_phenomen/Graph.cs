@@ -22,19 +22,27 @@ namespace Small_world_phenomen
         public Dictionary<string, COLORS> colors;
         public Dictionary<string, List<string>> parents;
         public Dictionary<string, int> distances;
+        public Stack<List<string>> movies;
+        public List<int> strength;
 
-        public HashSet<string> films;
+        public Stack<List<string>> bestWay;
         public Graph()
         {
             adjcencyList = new Dictionary<string, Dictionary<string, List<string>>>();
             colors = new Dictionary<string, COLORS>();
             parents = new Dictionary<string, List<string>>();
             distances = new Dictionary<string, int>();
+            bestWay = new Stack<List<string>>();
 
-            films = new HashSet<string>();
 
             
         }
+        public class visited_Actor
+        {
+            public string name;
+            public int strength;
+            public int level;
+            public string parent;
 
        
         public int path(string source , string destination ,int n,string adj,int max)
@@ -73,10 +81,12 @@ namespace Small_world_phenomen
             colors = new Dictionary<string, COLORS>();
             parents = new Dictionary<string, List<string>>();
             distances = new Dictionary<string, int>();
+            Dictionary<string, visited_Actor> visited_actors = new Dictionary<string, visited_Actor>();
+            bool destination_found = false;
+            visited_Actor source_Actor = new visited_Actor(source, 0, 0, "");
+            visited_Actor dest_Acotr = new visited_Actor();
             Queue<string> vertices = new Queue<string>();
-            films = new HashSet<string>();
-            int distance = 0;
-
+            visited_actors.Add(source, source_Actor);
             foreach (var actor in adjList)
             {
                 colors.Add(actor.Key, COLORS.WHITE);
@@ -86,18 +96,24 @@ namespace Small_world_phenomen
             }
 
 
-            colors[s] = COLORS.GRAY;
-            distances[s] = 0;
+            colors[source] = COLORS.GRAY;
+            distances[source] = 0;
 
-            vertices.Enqueue(s);
+            vertices.Enqueue(source);
 
-            string v = "";
+            string parent = "";
 
             while (vertices.Count != 0)
             {
-                v = vertices.Dequeue();
-                foreach (var adj in adjList[v].Keys)
+                parent = vertices.Dequeue();
+
+                if (destination_found && visited_actors[parent].level >= dest_Acotr.level)
                 {
+                    Console.WriteLine("strenght = " + dest_Acotr.strength);
+                    visited_Actor currentActor = new visited_Actor();
+                    Stack<string> bestway = new Stack<string>();
+                    currentActor = dest_Acotr;
+                    bestway.Push(dest_Acotr.name);
 
                     if (colors[adj] == COLORS.WHITE || colors[adj] == COLORS.GRAY)
                     {
@@ -118,7 +134,14 @@ namespace Small_world_phenomen
                         }
 
                         vertices.Enqueue(adj);
-
+                    }
+                    else
+                    {
+                        if (visited_actors[adj].strength < (adjList[parent][adj].Count + visited_actors[parent].strength) && visited_actors[adj].level == visited_actors[parent].level + 1)
+                        {
+                            current_Actor = new visited_Actor(adj, adjList[adj][parent].Count + visited_actors[parent].strength, distances[adj], parent);
+                            visited_actors[adj] = current_Actor;
+                        }
                     }
                     colors[v] = COLORS.BLACK;
                 }
@@ -132,6 +155,7 @@ namespace Small_world_phenomen
         }
         public void constract_graph(Dictionary<string, List<string>> moviesData)
         {
+
             foreach (var movie in moviesData)
             {
                 //  Console.Write("key : " +  + "  value: ");
