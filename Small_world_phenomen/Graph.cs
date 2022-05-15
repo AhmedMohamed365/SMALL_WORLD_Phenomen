@@ -19,23 +19,20 @@ namespace Small_world_phenomen
     {
 
         public Dictionary<string, Dictionary<string, List<string>>> adjcencyList; // key : ActorName ,Value :  Actors connected to (with films) 
-        public Dictionary<string, COLORS> colors;
-        public Dictionary<string, List<string>> parents;
-        public Dictionary<string, int> distances;
-        public Stack<List<string>> movies;
-        public List<int> strength;
+
+
+        public Dictionary<string  , Dictionary<string, visited_Actor>  > discovered;
 
         public Stack<List<string>> bestWay;
         public Graph()
         {
             adjcencyList = new Dictionary<string, Dictionary<string, List<string>>>();
-            colors = new Dictionary<string, COLORS>();
-            parents = new Dictionary<string, List<string>>();
-            distances = new Dictionary<string, int>();
+
+            discovered = new Dictionary<string, Dictionary<string, visited_Actor>>();
             bestWay = new Stack<List<string>>();
 
 
-            
+
         }
         public class visited_Actor
         {
@@ -44,60 +41,155 @@ namespace Small_world_phenomen
             public int level;
             public string parent;
 
-       
-        public int path(string source , string destination ,int n,string adj,int max)
-        {
-
-
-            foreach (var film in adjcencyList[destination][adj])
+            public visited_Actor(string name, int strength, int level, string parent)
             {
-                
-                films.Add(film);
-
-              //  Console.Write(film + "  ");
+                this.name = name;
+                this.strength = strength;
+                this.level = level;
+                this.parent = parent;
             }
 
-         
+            public visited_Actor()
+            {
 
-            //Console.WriteLine();
-            n += adjcencyList[destination][adj].Count;
+            }
+        }
 
-            destination = adj;
+        //public void printPath(string source, string destination, int distance)
+        //{
+        //    int strength = calcPath(source, destination, distance);
 
-            if (adj == source)
-                return films.Count;
+        //    Console.WriteLine(strength);
+        //    while (parentNames.Count != 0)
+        //    {
+
+        //        Console.Write(parentNames.Pop() + " ");
+
+        //        Console.Write("=>");
+
+        //    }
+
+
+        //    Console.WriteLine();
+
+        //    while (movies.Count != 0)
+        //    {
+        //        foreach (var movie in movies.Pop())
+        //        {
+        //            Console.Write(movie + " ");
+        //        }
+        //        Console.Write("=>");
+
+        //    }
+        //    Console.WriteLine();
+        //}
+        //public int calcPath(string source, string destination, int distance)
+        //{
+        //    movies = new Stack<List<string>>();
+        //    parentNames = new Stack<string>();
+
+        //    string parent = parents[destination], child;
+
+        //    child = destination;
+
+
+        //    parentNames.Push(destination);
+        //    int strength = 0;
+        //    for (int i = 0; i < distance; i++)
+        //    {
+        //        strength += adjcencyList[child][parent].Count;
+
+
+        //        //if(i == distance-1)
+        //        //    parentNames.Push(source);
+
+        //        movies.Push(adjcencyList[child][parent]);
+        //        parentNames.Push(parent);
+
+        //        child = parent;
+
+
+
+
+        //        if (!parents.ContainsKey(child))
+        //        {
+        //            break;
+        //        }
+        //        parent = parents[child];
+
+
+
+
+
+        //    }
+
+
+
+
+
+
+
+        //    return strength;
+
+
+        //}
+
+        public void printInfo(Dictionary<string, visited_Actor>  visited_actors, Dictionary<string, Dictionary<string, List<string>>>  adjList,   visited_Actor dest_Acotr,ref  string source , ref string dest)
+        {
+
+            Console.WriteLine("DOS = {0} ,strenght = {1} ", dest_Acotr.level, dest_Acotr.strength);
+            visited_Actor currentActor = new visited_Actor();
+            Stack<string> bestway = new Stack<string>();
+            currentActor = dest_Acotr;
+            bestway.Push(dest_Acotr.name);
+
+            for (int i = 0; i < dest_Acotr.level; i++)
+            {
+                currentActor = visited_actors[currentActor.parent];
+                bestway.Push(currentActor.name);
+            }
+            while (bestway.Count > 1)
+            {
+                string actor1 = bestway.Pop();
+                string actor2 = bestway.Peek();
+                foreach (var movies in adjList[actor1][actor2])
+                {
+                    Console.Write(movies + " ");
+                }
+                Console.Write("=>");
+            }
+            Console.WriteLine();
+
+            discovered.Add(source, visited_actors);
+        }
+        public void  BFS(string source, string dest, Dictionary<string, Dictionary<string, List<string>>> adjList)
+        {
+
+            if (discovered.ContainsKey(source))
+            {
+                if (discovered[source].ContainsKey(dest))
+                {
+
+                    printInfo(discovered[source], adjList,   discovered[source][dest],  ref source, ref  dest);
+
+                    return;
+                }
+
+            }
+
 
             
-            foreach (var parent in parents[destination])
-            {
-               max = Math.Max( path(source, destination, n, parent,max)  , max) ;
 
-            }
-
-            return max;
-        }
-        public void BFS(string s, string d, Dictionary<string, Dictionary<string, List<string>>> adjList)
-        {
-            colors = new Dictionary<string, COLORS>();
-            parents = new Dictionary<string, List<string>>();
-            distances = new Dictionary<string, int>();
             Dictionary<string, visited_Actor> visited_actors = new Dictionary<string, visited_Actor>();
             bool destination_found = false;
             visited_Actor source_Actor = new visited_Actor(source, 0, 0, "");
             visited_Actor dest_Acotr = new visited_Actor();
             Queue<string> vertices = new Queue<string>();
             visited_actors.Add(source, source_Actor);
-            foreach (var actor in adjList)
-            {
-                colors.Add(actor.Key, COLORS.WHITE);
-                distances.Add(actor.Key, int.MaxValue);
-
-                List<string> parent = new List<string>();
-            }
+         
 
 
-            colors[source] = COLORS.GRAY;
-            distances[source] = 0;
+           
 
             vertices.Enqueue(source);
 
@@ -106,52 +198,55 @@ namespace Small_world_phenomen
             while (vertices.Count != 0)
             {
                 parent = vertices.Dequeue();
-
                 if (destination_found && visited_actors[parent].level >= dest_Acotr.level)
                 {
-                    Console.WriteLine("strenght = " + dest_Acotr.strength);
-                    visited_Actor currentActor = new visited_Actor();
-                    Stack<string> bestway = new Stack<string>();
-                    currentActor = dest_Acotr;
-                    bestway.Push(dest_Acotr.name);
 
-                    if (colors[adj] == COLORS.WHITE || colors[adj] == COLORS.GRAY)
+
+                    printInfo(visited_actors, adjList, dest_Acotr, ref source, ref dest);
+
+                    if(!discovered.ContainsKey(source))
+                    discovered.Add(source, visited_actors);
+
+                    else
                     {
-                        colors[adj] = COLORS.GRAY;
-                        if (distances[adj] > distances[v] + 1)
-                            distances[adj] = distances[v] + 1;
-                        if (parents.ContainsKey(adj))
-                        {
-                            if(! (parents[adj].Contains(v)) && adjcencyList[v][adj].Count == 0)
-                                parents[adj].Add(v);
-                        }
-                        else
-                        {
+                        discovered[source] = visited_actors;
+                    }
 
-                            List<string> parent = new List<string>();
-                            parent.Add(v);
-                            parents[adj] = parent;
-                        }
+                    break;
 
+                }
+
+                foreach (var adj in adjList[parent].Keys)
+                {
+                    visited_Actor current_Actor = new visited_Actor();
+                    if (!visited_actors.ContainsKey(adj))
+                    {
+                      
+                        current_Actor = new visited_Actor(adj, adjList[adj][parent].Count + visited_actors[parent].strength, visited_actors[parent].level + 1, parent);
+                        visited_actors.Add(adj, current_Actor);
                         vertices.Enqueue(adj);
                     }
                     else
                     {
                         if (visited_actors[adj].strength < (adjList[parent][adj].Count + visited_actors[parent].strength) && visited_actors[adj].level == visited_actors[parent].level + 1)
                         {
-                            current_Actor = new visited_Actor(adj, adjList[adj][parent].Count + visited_actors[parent].strength, distances[adj], parent);
+                            current_Actor = new visited_Actor(adj, adjList[adj][parent].Count + visited_actors[parent].strength,visited_actors[parent].level+1, parent);
                             visited_actors[adj] = current_Actor;
                         }
                     }
-                    colors[v] = COLORS.BLACK;
-                }
+                    if (adj == dest && !destination_found)
+                    {
+                        dest_Acotr = current_Actor;
+                        destination_found = true;
+                    }
 
-                if (distances[d] != int.MaxValue && !(vertices.Contains(d)))
-                {
-                    return;
+
                 }
             }
-            return;
+
+
+
+           
         }
         public void constract_graph(Dictionary<string, List<string>> moviesData)
         {
@@ -193,6 +288,14 @@ namespace Small_world_phenomen
                     }
                 }
             }
+
         }
     }
+
+
+
+
 }
+
+//
+
