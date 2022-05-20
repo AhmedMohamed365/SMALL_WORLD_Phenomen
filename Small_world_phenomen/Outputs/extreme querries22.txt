@@ -1,0 +1,90 @@
+constract = 40.7182014
+Bernier, Marie-Lise/Archambault, Sylvio
+DOS = 1 ,strenght = 1
+Sphinx, Le (1995)=>
+
+Costa, Jim/Alexander, Jace
+DOS = 1 ,strenght = 1
+Matewan (1987)=>
+
+Tesla, Aleksander/Dafoe, Willem
+DOS = 2 ,strenght = 4
+Taking Sides (2001)=>Dear America: Letters Home from Vietnam (1987)=>
+
+Cresci, Frances/Adams, Jonathan
+DOS = 2 ,strenght = 2
+Clerks. (1994)=>Air Bud: Golden Receiver (1998)=>
+
+Noi, Ratanaporn/Intachai, Prinya
+DOS = 3 ,strenght = 3
+1 2 3 duan mahaphai (1977)=>Suriyothai (2001)=>303 Fear Faith Revenge (1998)=>
+
+Florence, Davone/Stewart, Alexandra
+DOS = 3 ,strenght = 7
+Blue Collar (1978)=>Nuit de Varennes, La (1982)=>Bel ?ge, Le (1959)=>
+
+Conoyer, Brian Mark/Soriano, Jos?
+DOS = 4 ,strenght = 17
+Overexposed (1992)=>Kojak: The Belarus File (1985)=>Ansiktet (1958)=>Pobre mariposa (1986)=>
+
+Woloshyn, Illya/Paul, Bernhard
+DOS = 4 ,strenght = 9
+Beethoven Lives Upstairs (1989)=>Kde alibi nestac? (1960)=>Dev?t? srdce (1978)=>Dumme Augustine, Die (1993)=>
+
+O'Hara, Brett/Pierini, David
+DOS = 5 ,strenght = 49
+Incredibly Strange Creatures Who Stopped Living and Became Mixed-Up Zombies, The (1963)=>Arizona Gunfighter (1937)=>Spirit of St. Louis, The (1957)=>Mad City (1997)=>Last Way Out, The (1997)=>
+
+Langford, Barry/S.P., Lakshmana Swamy
+DOS = 5 ,strenght = 11
+Saturday Night Out (1963)=>Angry Silence, The (1960)=>Shatranj Ke Khiladi (1977)=>Ele, My Friend (1992)=>Tenali Ramakrishna (1941)=>
+
+Coombes, Gordon/Magsamen, Seraphina
+DOS = 6 ,strenght = 10
+Shine (1996)=>Andere neben dir, Der (1963)=>Polizeiruf 110 - Der Tod des Professors (1974)=>Polizeiruf 110 - Thanners neuer Job (1991)=>Lake, The (1994)=>Bridge, The (1995)=>
+
+Marr, Ericka/Bracke, Chad
+DOS = 6 ,strenght = 9
+Big Bet, The (1985)=>Deathstalker II (1987)=>Sorority House Massacre II (1990)=>Fatty Drives the Bus (1999)=>They Came... THEY CAME! (1989)=>Guide to Urban Golf, The (1994)=>
+
+Hammer, M.C./Salunke, Anna
+DOS = 7 ,strenght = 15
+Last Action Hero (1993)=>Blood and Sand (1941)=>Lives of a Bengal Lancer, The (1935)=>Ramshastri (1944)=>Amrit (1941,I)=>Sinhagad (1933)=>Lanka Dahan (1917)=>
+
+Gr?we, Michael/Sr., Sriranjani
+DOS = 7 ,strenght = 13
+Tach, Herr Dokter (1999)=>Nachtgestalten (1999)=>Sammy and Rosie Get Laid (1987)=>Bombay Talkie (1970)=>Bhookailas (1956)=>Appu Chesi Pappu Koodu (1958)=>Vara Vikrayam (1939)=>
+
+Graaf, Mark de/Bai, Yang
+DOS = 8 ,strenght = 11
+Vroeger is dood (1987)=>Soldaat van Oranje (1977)=>Blood of Heroes, The (1988)=>You Seng (1993)=>Cheng nan jiu shi (1983)=>Lin ju (1981)=>Wuya yu maque (1949)=>Shizi jietou (1937)=>
+
+Tyson, Stephon/Dabke, D.D.
+DOS = 8 ,strenght = 9
+Teddy Bear Syndrome, The (2001)=>Being John Malkovich (1999)=>Before Night Falls (2000)=>Shree 420 (1955)=>Amrit (1941,I)=>Sinhagad (1933)=>Lanka Dahan (1917)=>Satyavadi Raja Harishchandra (1917)=>
+
+Armstrong, Stretch/Razavi, Atefeh
+DOS = 9 ,strenght = 9
+Grand Theft Auto III (2001)=>Favorite Son (1988)=>Zorn (1994)=>Gr?nsen (1995)=>Bashu (1989)=>Fifth Season, The (1997)=>Zir-e poost-e shahr (2000)=>Eteraz (2000)=>Zinat (1994)=>
+
+Norat, Max/Razavi, Atefeh
+DOS = 9 ,strenght = 10
+Faithful (1996)=>13 Moons (2002)=>Sorts Hades, Ett (1996)=>Gr?nsen (1995)=>Bashu (1989)=>Fifth Season, The (1997)=>Zir-e poost-e shahr (2000)=>Eteraz (2000)=>Zinat (1994)=>
+
+Sanchez, Clark/Mahigiran, Norieh
+DOS = 10 ,strenght = 12
+New Eden (1994)=>Late for Dinner (1991)=>Enkel resa (1988)=>Gr?nsen (1995)=>Bashu (1989)=>Fifth Season, The (1997)=>Zir-e poost-e shahr (2000)=>Eteraz (2000)=>Zinat (1994)=>Ghess? hay? kish (1999)=>
+
+Misner, Sandy/Razavi, Atefeh
+DOS = 10 ,strenght = 12
+Cons (2000)=>Brooklyn Sonnet (2000)=>Jerusalem (1996)=>Lotta 2 - Lotta flyttar hemifr?n (1993)=>Gr?nsen (1995)=>Bashu (1989)=>Fifth Season, The (1997)=>Zir-e poost-e shahr (2000)=>Eteraz (2000)=>Zinat (1994)=>
+
+Parra, Mar?a Jos?/Mahigiran, Norieh
+DOS = 11 ,strenght = 14
+Se buscan fulmontis (1999)=>Somebody to Love (1994)=>13 Moons (2002)=>Sorts Hades, Ett (1996)=>Gr?nsen (1995)=>Bashu (1989)=>Fifth Season, The (1997)=>Zir-e poost-e shahr (2000)=>Eteraz (2000)=>Zinat (1994)=>Ghess? hay? kish (1999)=>
+
+Daniel, Freddie/Motamed-Aria, Fatemah
+DOS = 11 ,strenght = 11
+Prairie Roundup (1951)=>Sea of Grass, The (1947)=>Disappearance of Finbar, The (1996)=>Gr?nsen (1995)=>Bashu (1989)=>Fifth Season, The (1997)=>Booye kafoor, atre yas (2000)=>Sagkoshi (2001)=>Mosaferan (1992)=>Leila (1996)=>Safar (1994)=>
+
+270.6207368 s == 4.5min 

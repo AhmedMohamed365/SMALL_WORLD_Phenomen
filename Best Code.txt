@@ -1,0 +1,282 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Diagnostics;
+namespace Small_world_phenomen
+{
+    struct Friend
+    {
+        
+       public  int Count;
+       public  string film;
+
+        public Friend(int numFilms, string film)
+        {
+            this.Count = numFilms;
+            this.film = film;
+        }
+    }
+    class Graph
+    {
+        
+        public Dictionary<int, Dictionary<int, Friend> > adjcencyList; // key : ActorName ,Value :  Actors connected to (with films) 
+        public Dictionary<int, Dictionary<int, visited_Actor>> discovered;
+        //public Dictionary<int , Friend> FriendsBook;
+
+        public Dictionary<string, int> actorToNumber;
+        public HashSet<string> allActors;
+        public Stack<List<string>> bestWay;
+        public int code;
+        public Graph()
+        {
+            adjcencyList = new Dictionary<int, Dictionary<int, Friend>>();
+            discovered = new Dictionary<int, Dictionary<int, visited_Actor>>();
+            bestWay = new Stack<List<string>>();
+            actorToNumber = new Dictionary<string, int>();
+            allActors = new HashSet<string>();
+            code = 0;
+        }
+        public class visited_Actor
+        {
+            public int name;
+            public int strength;
+            public int level;
+            public int parent;
+            public bool need;
+            public visited_Actor(int name, int strength, int level, int parent)
+            {
+                this.name = name;
+                this.strength = strength;
+                this.level = level;
+                this.parent = parent;
+            }
+
+            public visited_Actor()
+            {
+
+            }
+        }
+        public void printInfo(Dictionary<int, visited_Actor> visited_actors, Dictionary<int, Dictionary<int, Friend>> adjList, visited_Actor dest_Acotr, ref int source, ref int dest, bool optmization)
+        {
+
+            Console.WriteLine("DOS = {0} ,strenght = {1} ", dest_Acotr.level, dest_Acotr.strength);
+            visited_Actor currentActor = new visited_Actor();
+            Stack<int> bestway = new Stack<int>();
+            currentActor = dest_Acotr;
+            bestway.Push(dest_Acotr.name);
+
+            for (int i = 0; i < dest_Acotr.level; i++)
+            {
+                currentActor = visited_actors[currentActor.parent];
+                bestway.Push(currentActor.name);
+            }
+            while (bestway.Count > 1)
+            {
+                int actor1 = bestway.Pop();
+                int actor2 = bestway.Peek();
+                Console.Write(adjcencyList[actor1][actor2].film);
+                Console.Write("=>");
+            }
+            Console.WriteLine();
+            if (optmization)
+            {
+                if (!discovered.ContainsKey(source))
+                {
+                    discovered.Add(source, visited_actors);
+
+
+                    foreach (var a in discovered[source])
+                    {
+                        if (a.Value.need == false)
+                        {
+                            discovered[source][source].parent = a.Value.name;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    discovered[source] = visited_actors;
+                    foreach (var a in discovered[source])
+                    {
+                        if (a.Value.need == false)
+                        {
+                            discovered[source][source].parent = a.Value.name;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        public void BFS(int source, int dest, Dictionary<int, Dictionary<int, Friend>> adjList, bool optmization = false, bool bonus = false)
+        {
+
+            Dictionary<int, visited_Actor> visited_actors;
+            visited_Actor source_Actor;
+            visited_Actor dest_Acotr = new visited_Actor();
+            Dictionary<int, int> bonusStore = new Dictionary<int, int>();
+
+            int originalSource = source;
+            if (discovered.ContainsKey(source) && optmization == true && bonus == false)
+            {
+                if (discovered[source].ContainsKey(dest))
+                {
+                    printInfo(discovered[originalSource], adjList, discovered[originalSource][dest], ref originalSource, ref dest, optmization);
+                    visited_actors = new Dictionary<int, visited_Actor>();
+                    return;
+                }
+                else
+                {
+                    visited_actors = discovered[source];
+                    source = discovered[source][source].parent;
+                    source_Actor = discovered[originalSource][source];
+                }
+            }
+            else
+            {
+                visited_actors = new Dictionary<int, visited_Actor>();
+                source_Actor = new visited_Actor(source, 0, 0, -1);
+                visited_actors.Add(source, source_Actor);
+            }
+
+            bool destination_found = false;
+            Queue<int> vertices = new Queue<int>();
+
+
+
+            vertices.Enqueue(source);
+            int parent;
+            while (vertices.Count != 0)
+            {
+                parent = vertices.Dequeue();
+                if (destination_found && visited_actors[parent].level >= dest_Acotr.level)
+                {
+                    printInfo(visited_actors, adjList, dest_Acotr, ref originalSource, ref dest, optmization);
+                    break;
+
+                }
+
+                foreach (var adj in adjList[parent].Keys)
+                {
+                    visited_Actor current_Actor = new visited_Actor();
+                    if (!visited_actors.ContainsKey(adj))
+                    {
+                        current_Actor = new visited_Actor(adj, adjList[adj][parent].Count + visited_actors[parent].strength, visited_actors[parent].level + 1, parent);
+                        visited_actors.Add(adj, current_Actor);
+                        vertices.Enqueue(adj);
+                    }
+                    else
+                    {
+                        if (visited_actors[adj].strength < (adjList[parent][adj].Count + visited_actors[parent].strength) && visited_actors[adj].level == visited_actors[parent].level + 1)
+                        {
+                            current_Actor = new visited_Actor(adj, adjList[adj][parent].Count + visited_actors[parent].strength, visited_actors[parent].level + 1, parent);
+                            visited_actors[adj] = current_Actor;
+                        }
+                    }
+                    if (adj == dest && !destination_found && optmization == true && bonus == false)
+                    {
+                        dest_Acotr = current_Actor;
+                        destination_found = true;
+                    }
+                    if (adj == dest && destination_found && (visited_actors[parent].level + 1) <= dest_Acotr.level)
+                    {
+                        if (visited_actors[parent].strength + adjList[adj][parent].Count > dest_Acotr.strength)
+                        {
+                            dest_Acotr.strength = visited_actors[parent].strength + adjList[adj][parent].Count;
+                            dest_Acotr.name = adj;
+                            dest_Acotr.parent = parent;
+                        }
+                    }
+                }
+
+                visited_actors[parent].need = true;
+            }
+            if (optmization == false)
+            {
+                dest_Acotr = visited_actors[dest];
+                printInfo(visited_actors, adjList, dest_Acotr, ref originalSource, ref dest, optmization);
+            }
+            if (bonus == true)
+            {
+                foreach (var actor in visited_actors)
+                {
+                    if (bonusStore.ContainsKey(actor.Value.level))
+                    {
+                        bonusStore[(actor.Value.level)]++;
+                    }
+                    else
+                        bonusStore.Add(actor.Value.level, 1);
+                }
+                foreach (var bon in bonusStore)
+                {
+                    Console.WriteLine(bon.Key + " : " + bon.Value);
+                }
+            }
+        }
+        public void constract_graph(Dictionary<string, List<string>> moviesData)
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            foreach (var movie in moviesData)
+            {
+                foreach (var actor in movie.Value)
+                {
+                    allActors.Add(actor);
+                }
+            }
+            foreach (var actor in allActors)
+            {
+                actorToNumber.Add(actor, code);
+                code++;
+            }
+            foreach (var movie in moviesData)
+            {
+                //  Console.Write("key : " +  + "  value: ");
+                foreach (var actor in movie.Value)
+                {
+                    foreach (var friend in movie.Value)
+                    {
+                        int actor1 = actorToNumber[actor];
+                        int actor2 = actorToNumber[friend];
+
+                        if (actor1 != actor2)
+                        {
+                            if (!adjcencyList.ContainsKey(actor1))
+                            {
+
+
+
+
+                                Friend friend1 = new Friend(1, movie.Key);
+                                Dictionary<int, Friend> actorFriend = new Dictionary<int, Friend>();
+                                actorFriend.Add(actor2, friend1);
+
+                                adjcencyList.Add(actor1, actorFriend);
+                            }
+                            else
+                            {
+                                if (!adjcencyList[actor1].ContainsKey(actor2))
+                                {
+
+                                    Friend friend1 = new Friend(1, movie.Key);
+
+                                    adjcencyList[actor1].Add(actor2, friend1);
+                                }
+                                else
+                                {
+                                    Friend f = adjcencyList[actor1][actor2];
+                                    f.Count++;
+                                    adjcencyList[actor1][actor2] = f;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            stopwatch.Stop();
+            Console.WriteLine("constract = " + stopwatch.Elapsed.TotalSeconds);
+        }
+    }
+}
