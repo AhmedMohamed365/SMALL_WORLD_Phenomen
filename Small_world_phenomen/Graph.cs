@@ -17,10 +17,10 @@ namespace Small_world_phenomen
         }
     }
 
-    class Graph
+public class Graph
     {
 
-        public Dictionary<int, Dictionary<int, Friend>> adjcencyList; // key : ActorName ,Value :  Actors connected to (with filmsInfo) 
+         Dictionary<int, Dictionary<int, Friend>> adjcencyList; // key : ActorName ,Value :  Actors connected to (with filmsInfo) 
         public Dictionary<int, Dictionary<int, visited_Actor>> discovered;
         public Dictionary<int, string> NumberToActor;
         public Dictionary<string, int> actorToNumber;
@@ -99,6 +99,7 @@ namespace Small_world_phenomen
                 Means : starting from the first grey Node in the discovered way.
                  
                  */
+
                 if (!discovered.ContainsKey(source))
                 {
                     discovered.Add(source, visited_actors);
@@ -129,6 +130,7 @@ namespace Small_world_phenomen
                 }
             }
         }
+
         /// <summary>
         /// Breadth First Search Algorithm with modifications to start from a specific point and to get info about corresponding actor in the actor pair like "Ahmed , Wael"  finding the realtion strength and degree of seperation.
         /// </summary>

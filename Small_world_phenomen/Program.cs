@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Small_world_phenomen
 {
-    class Program
+   public  class Program
     {
         static void Main(string[] args)
         {
@@ -16,6 +16,7 @@ namespace Small_world_phenomen
             Stopwatch stopwatch = new Stopwatch();
             const string defaultSample = "Test/Sample/";
             const string defaultComplete = "Test/Complete/extreme/";
+            const string defaultLarge = "Test/Complete/large/";
             const string defaultmedium = "Test/Complete/medium/";
 
 
